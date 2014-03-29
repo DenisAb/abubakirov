@@ -1,5 +1,5 @@
         .data			#do print * and i-- while x>0
-var:
+ivar:
         .space 4 
 
         
@@ -34,7 +34,7 @@ looop:
 
         movl    ivar,   %eax
         cmpl    $0 ,   %eax            # compare ivar with 0
-        jnl     looop            
+        jg     looop            
         
 
 
