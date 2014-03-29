@@ -7,7 +7,8 @@ strforscan:
         .string  "%d"
 strpr:
         .string  "*"
-
+strend:
+	.string	"\n"
 
 	.text
 	.global main
@@ -45,6 +46,14 @@ next:
 
 
 end:
+
+        pushl   $strend
+        call    printf
+        addl    $4,     %esp
+
+
+
+
         movl    $0 ,     %eax		# epilog
         movl    %ebp,   %esp
         popl    %ebp
