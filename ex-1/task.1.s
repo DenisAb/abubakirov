@@ -1,64 +1,61 @@
 .data
 printf_format:
-	.string "%d\n"
+	.string "%u\n"
+	#Ассемблер в Linux для программистов C
+str_in:
+	.string "abc123()!@!777"
 .text
+	#/* size_t my_strlen(const char *s); */
+strforscan:
+        .string "%s"
 
-#* int factorial(int) */
-
-factorial:
-	pushl	 %ebp		#prolog
+my_strlen:
+	pushl 	%ebp			#prolog
 	movl 	%esp, 	%ebp
-			#/*извлечь аргумент в %eax */
-	movl 	8(%ebp),%eax
-			#/* факториал 0 равен 1 */
-	cmpl $0, %eax
-	jne	not_zero
 
-	movl $1, %eax
-	jmp return
+	pushl 	%edi
 
-not_zero:
+	movl 	8(%ebp),%edi 		#/* цепочка */
 
-	#/* следующие 4 строки вычисляют выражение
-	#%eax = factorial(%eax - 1) */
+	movl 	$0xffffffff, 	%ecx 	#/* %eax = 0 */
+	xorl	%eax, 	%eax 
 
-	decl 	%eax
-	pushl	%eax
-	call	factorial
-	addl	$4,	 %esp
+	repne scasb
 
-	#извлечь в %ebx аргумент и вычислить %eax = %eax * %ebx */
+	notl 	%ecx
+	decl 	%ecx
 
-	movl	8(%ebp),%ebx
-	null 	%ebx
-
-	#/* результат в паре %edx:%eax, но старшие 32 бита нужно
-	#отбросить,
-	#так как они не помещаются в int */
-
-return:
-	movl	%ebp, 	%esp	#epilog
+	movl 	%ecx, 	%eax
+	
+	popl 	%edi
+	
+	movl 	%ebp, %esp			#epilog
 	popl	%ebp
-	ret
+	ret 
 
 .globl main
 main:
-	pushl %ebp		#prolog
-	movl %esp, %ebp
+	pushl 	%ebp
+	movl 	%esp, 	%ebp
 
-	pushl $5
-	call factorial
+        pushl $str_in		# read str
+        pushl $strforscan
+        call scanf
+        addl $8, %esp
 
-	pushl %eax
-	pushl $printf_format
-	call printf
-	
-	#/* стек можно не выравнивать, это будет сделано
-	#во время выполнения эпилога */
 
-	movl $0, %eax		/* завершить программу */
 
-	movl %ebp, %esp		#epilog
+
+	pushl 	$str_in
+	call 	my_strlen
+
+	pushl 	%eax
+	pushl 	$printf_format
+	call 	printf
+
+	movl 	$0, 	%eax
+
+	movl 	%ebp, 	%esp
+
 	popl %ebp
 	ret
-
