@@ -1,24 +1,28 @@
 .data
 printf_format:
         .string "%d\n"
-mypow:
+main:
         pushl    %ebp           #prolog
         movl    %esp,   %ebp
                         #/*извлечь аргумент в %eax */
 
-
-
-
+	movl 	$2,	%eax
+	movl	%esp, 	%eax
+	mull 	%eax
 
 
         #извлечь в %ebx аргумент и вычислить %eax = %eax * %ebx */
 
-        movl    8(%ebp),%ebx
-        mull    %ebx
+#        movl    8(%ebp),%ebx
+ #       mull    %ebx
 
         #/* результат в паре %edx:%eax, но старшие 32 бита нужно
         #отбросить,
         #так как они не помещаются в int */
+
+       movl %ebp, %esp         #epilog
+        popl %ebp
+        ret
 
 
 
@@ -26,7 +30,8 @@ mypow:
 
 
 .data
-printf_format:
+Pprintf_format:
+
 	.string "%d\n"
 .text
 
@@ -68,8 +73,8 @@ return:
 	popl	%ebp
 	ret
 
-.globl main
-main:
+.globl Nmain
+Nmain:
 	pushl %ebp		#prolog
 	movl %esp, %ebp
 
