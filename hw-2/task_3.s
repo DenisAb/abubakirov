@@ -26,17 +26,20 @@ main: 	pushl 	%ebp			# prolog
 	movl	%eax,	ivar	
 
 	# в ecx указатель на текущий элемент массива
-	
+	movl	$array,	%ecx	
 
-        pushl   (%ecx)             # read element of asrray
-        pushl   $scanform
-        call    scanf
+	pushl   $array             # read element of asrray
+       	pushl   $scanform
+       	call    scanf
+      	addl    $8,     %esp
+
+
+
+	pushl	(%ecx)
+        pushl   $printform
+        call    printf
         addl    $8,     %esp
 
-
-
-
-#main1:
 #	movl	$0,	%eax		#summ in eax
 #	movl	$array, %ebx 		# adress of arr elemnt in ebx
 # 
