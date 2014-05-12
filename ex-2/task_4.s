@@ -104,4 +104,5 @@ scan:
 	
 	movl	%ebp, 	%esp		# epilog
 	popl	%ebp
+	movl    $0,     %eax	
 	ret
