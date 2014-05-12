@@ -100,6 +100,7 @@ scan:
 	jne	scan
 
 
+	movl	$0,	%eax
 	movl	%ebp, 	%esp		# epilog
 	popl	%ebp
 	ret
