@@ -80,6 +80,7 @@ main:
 
 	movl	%ebp, 	%esp		# epilog
 	popl	%ebp
+	movl    $0,     %eax
 	ret	
 
 scan_input:
@@ -100,7 +101,7 @@ scan:
 	jne	scan
 
 
-	movl	$0,	%eax
+	
 	movl	%ebp, 	%esp		# epilog
 	popl	%ebp
 	ret
